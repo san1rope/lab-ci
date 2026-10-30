@@ -18,4 +18,4 @@ mypy_path = "src"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--cov=shop --cov-report=term-missing --cov-fail-under=80"
+addopts = "--cov=shop --cov-report=term-missing --cov-fail-under=90"
