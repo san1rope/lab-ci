@@ -121,3 +121,7 @@ def test_most_expensive_by_unit_price_not_by_sum(empty_cart: Cart) -> None:
 def test_most_expensive_single_item(empty_cart: Cart) -> None:
     empty_cart.add("pen", price=15.0)
     assert empty_cart.most_expensive() == Item("pen", 15.0, 1)
+
+
+def test_format_total(cart_with_items: Cart) -> None:
+    assert cart_with_items.format_total() == "460.00"
