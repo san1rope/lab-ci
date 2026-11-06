@@ -44,7 +44,7 @@ class Cart:
         if not 0 <= discount_percent <= 100:
             raise ValueError("discount_percent must be in [0, 100]")
         subtotal = sum(item.price * item.qty for item in self._items.values())
-        return round(subtotal * (1 - discount_percent / 10), 2)
+        return round(subtotal * (1 - discount_percent / 100), 2)
 
     def total_in(self, currency: str, rates: RateProvider) -> float:
         rate = rates.get_rate(currency)
