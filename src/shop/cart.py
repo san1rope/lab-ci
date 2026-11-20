@@ -49,6 +49,11 @@ class Cart:
     def format_total(self) -> str:
         return f"{self.total():.2f}"
 
+    def total_with_coupon(self, discount_percent: float, coupon: float) -> float:
+        x = self.total(discount_percent)
+        y = x * (1 - discount_percent / 100) - coupon
+        return round(max(y, 0), 2)
+
     def total_in(self, currency: str, rates: RateProvider) -> float:
         rate = rates.get_rate(currency)
         if rate <= 0:
