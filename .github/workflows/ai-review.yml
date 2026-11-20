@@ -1,0 +1,31 @@
+name: AI Review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ai-review:
+    name: AI review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Get PR diff
+        run: git diff origin/${{ github.base_ref }}...HEAD -- src tests > pr.diff
+      - name: Ask Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: python .github/scripts/ai_review.py pr.diff .github/prompts/review-system.txt review.md
+      - name: Comment on PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --body-file review.md
